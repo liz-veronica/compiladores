@@ -3,7 +3,10 @@ compiladores
 
 Compiladores FPUNA
 
-Autor: Julio Paciello
+Autor: Liz Verónica Cabrera Vega
 
-Para compilar: gcc anlex.c tablaSimbolos.c -o anlex
+Para compilar: 
+1- gcc anlex.c tablaSimbolos.c -o analizador.exe
+2- ./analizador.exe fuente.txt
+
 
