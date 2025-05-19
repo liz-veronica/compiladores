@@ -40,9 +40,33 @@ typedef struct {
 	entrada *pe;
 } token;
 
+extern token t;
+extern int numLinea;
+const char* nombreToken(int compLex);
+
 /************* Prototipos ********************/
 void insertar(entrada e);
 entrada* buscar(const char *clave);
 void initTabla();
 void initTablaSimbolos();
 void getToken();
+
+void parser();           // Función principal del parser
+void match(int);         // Empareja el token actual con uno esperado
+void json();
+void element();
+void array();
+void element_list();
+void object();
+void attributes_list();
+void attribute();
+void attribute_name();
+void attribute_value();
+void sincronizar(const int[], int); // Manejo de errores
+
+
+
+
+
+
+

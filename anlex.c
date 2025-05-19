@@ -83,20 +83,19 @@ void getToken()
         else if (c == ':') { strcpy(lexema, ":"); t.compLex = DOS_PUNTOS; }
 
         else if (c == '"') {
-            i = 0; lexema[i++] = c;
-            while ((c = fgetc(archivo)) != '"' && c != EOF && c != '\n') {
-                lexema[i++] = c;
-            }
-            if (c == '"') {
-                lexema[i++] = c;
-                lexema[i] = '\0';
-                t.compLex = LITERAL_CADENA;
-            } else {
-                lexema[i] = '\0';
-                error("Cadena no cerrada");
-                return;
-            }
+            i = 0;
+        while ((c = fgetc(archivo)) != '"' && c != EOF && c != '\n') {
+            lexema[i++] = c;
         }
+        if (c == '"') {
+            lexema[i] = '\0';  // No guardamos las comillas
+            t.compLex = LITERAL_CADENA;
+        } else {
+            lexema[i] = '\0';
+            error("Cadena no cerrada");
+            return;
+        }
+}
         else if (isdigit(c) || c == '-') {
             i = 0;
             do {
@@ -164,7 +163,8 @@ int main(int argc,char* args[])
 	initTabla();
 	initTablaSimbolos();
 	
-	while (1) {
+    /*
+    while (1) {
         getToken();
         if (t.compLex == EOF_TOKEN) {
             fprintf(salida, "EOF\n");
@@ -176,6 +176,10 @@ int main(int argc,char* args[])
             fprintf(salida, "%s ", nombreToken(t.compLex));
         }
     }
+    */
+
+    parser();
+	
 
     fclose(archivo);
     fclose(salida);
