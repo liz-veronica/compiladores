@@ -43,6 +43,7 @@ typedef struct {
 extern token t;
 extern int numLinea;
 const char* nombreToken(int compLex);
+extern FILE *salida;
 
 /************* Prototipos ********************/
 void insertar(entrada e);

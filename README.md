@@ -15,5 +15,7 @@ Para compilar:
 1- gcc anlex.c tablaSimbolos.c parser.c -o json_parser
 2- ./json_parser fuente.txt
 
- 
+* Tarea 3
+1- gcc anlex.c tablaSimbolos.c parser.c -o traductor
+2- ./traductor fuente.txt 
 

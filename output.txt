@@ -1,0 +1,7 @@
+<objeto>Error en linea 2: se esperaba una cadena como nombre de atributo
+Juan</atributo>Error en linea 3: se esperaba una cadena como nombre de atributo
+30</atributo>Error en linea 4: se esperaba una cadena como nombre de atributo
+true</atributo>Error sintactico en linea 5: se esperaba 'R_LLAVE', se encontro 'ERROR'
+</objeto>Error: se esperaba fin de archivo
+
+Error: se encontraron tokens luego del fin del JSON

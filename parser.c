@@ -21,17 +21,21 @@ void parser() {
     getToken();   // Obtener primer token
     json();
     if (t.compLex == EOF_TOKEN)
-        printf("\nSintaxis correcta\n");
+        //printf("\nSintaxis correcta\n");
+        fprintf(salida, "\nTraduccion completa\n");
     else
-        printf("\nError: se encontraron tokens luego del fin del JSON\n");
+        //printf("\nError: se encontraron tokens luego del fin del JSON\n");
+        fprintf(salida, "\nError: se encontraron tokens luego del fin del JSON\n");
 }
 
 void match(int esperado) {
     if (t.compLex == esperado) {
         getToken();
     } else {
-        printf("Error sintáctico en línea %d: se esperaba '%s', se encontró '%s'\n",
-               numLinea, nombreToken(esperado), nombreToken(t.compLex));
+        //printf("Error sintáctico en línea %d: se esperaba '%s', se encontró '%s'\n",
+        //       numLinea, nombreToken(esperado), nombreToken(t.compLex));
+        fprintf(salida, "Error sintactico en linea %d: se esperaba '%s', se encontro '%s'\n",
+                numLinea, nombreToken(esperado), nombreToken(t.compLex));       
         const int sync[] = {COMA, R_LLAVE, R_CORCHETE, EOF_TOKEN};
         sincronizar(sync, 4);
     }
@@ -40,17 +44,23 @@ void match(int esperado) {
 void json() {
     element();
     if (t.compLex != EOF_TOKEN) {
-        printf("Error: se esperaba fin de archivo\n");
+        //printf("Error: se esperaba fin de archivo\n");
+        fprintf(salida, "Error: se esperaba fin de archivo\n");
     }
 }
 
 void element() {
-    if (t.compLex == L_LLAVE)
+    if (t.compLex == L_LLAVE){
+        fprintf(salida, "<objeto>");
         object();
-    else if (t.compLex == L_CORCHETE)
+        fprintf(salida, "</objeto>");
+    } else if (t.compLex == L_CORCHETE){
+        fprintf(salida, "<arreglo>");
         array();
-    else {
-        printf("Error en línea %d: se esperaba objeto o arreglo\n", numLinea);
+        fprintf(salida, "</arreglo>");
+    } else {
+        //printf("Error en línea %d: se esperaba objeto o arreglo\n", numLinea);
+        fprintf(salida, "Error en linea %d: se esperaba objeto o arreglo\n", numLinea);
         const int sync[] = {COMA, R_LLAVE, R_CORCHETE, EOF_TOKEN};
         sincronizar(sync, 4);
     }
@@ -93,16 +103,21 @@ void attributes_list() {
 }
 
 void attribute() {
+    if (t.compLex == LITERAL_CADENA) {
+        fprintf(salida, "<atributo nombre=\"%s\">", t.pe->lexema);
+    }
     attribute_name();
     match(DOS_PUNTOS);
     attribute_value();
+    fprintf(salida, "</atributo>");
 }
 
 void attribute_name() {
     if (t.compLex == LITERAL_CADENA) {
         match(LITERAL_CADENA);
     } else {
-        printf("Error en línea %d: se esperaba una cadena como nombre de atributo\n", numLinea);
+        //printf("Error en línea %d: se esperaba una cadena como nombre de atributo\n", numLinea);
+        fprintf(salida, "Error en linea %d: se esperaba una cadena como nombre de atributo\n", numLinea);
         const int sync[] = {DOS_PUNTOS, COMA, R_LLAVE};
         sincronizar(sync, 3);
     }
@@ -118,9 +133,11 @@ void attribute_value() {
         case PR_TRUE:
         case PR_FALSE:
         case PR_NULL:
+            fprintf(salida, "%s", t.pe->lexema);
             match(t.compLex); break;
         default:
-            printf("Error en línea %d: valor de atributo no válido\n", numLinea);
+            //printf("Error en línea %d: valor de atributo no válido\n", numLinea);
+            fprintf(salida, "Error en linea %d: valor de atributo no valido\n", numLinea);
             const int sync[] = {COMA, R_LLAVE};
             sincronizar(sync, 2);
     }
